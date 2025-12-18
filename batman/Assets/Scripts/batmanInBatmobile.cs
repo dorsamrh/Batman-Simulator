@@ -38,11 +38,6 @@ public class batmanInBatmobile : MonoBehaviour
         float moveY = Input.GetAxisRaw("Vertical");
         moveInput = new Vector2(moveX, moveY).normalized; // نرمالیزه کردن برای حرکت یکسان در تمام جهات
 
-        // بررسی نگه داشتن Shift برای فعال کردن بوست
-        if (Input.GetKey(KeyCode.LeftShift) | Input.GetKey(KeyCode.RightShift))
-            moveSpeed = boostSpeed; // سرعت بیشتر هنگام Shift
-        else
-            moveSpeed = normalSpeed; // سرعت عادی در غیر این صورت
 
         // تغییر جهت کاراکتر
         if (moveX > 0)
@@ -63,6 +58,11 @@ public class batmanInBatmobile : MonoBehaviour
         {
             case BatmanState.Normal:
                 moveSpeed = normalSpeed;
+                // بررسی نگه داشتن Shift برای فعال کردن بوست
+                if (Input.GetKey(KeyCode.LeftShift) | Input.GetKey(KeyCode.RightShift))
+                    moveSpeed = boostSpeed; // سرعت بیشتر هنگام Shift
+                else
+                    moveSpeed = normalSpeed; // سرعت عادی در غیر این صورت
                 if (environmentLight != null) environmentLight.intensity = 1f;
                 if (alarm != null && alarm.isPlaying) alarm.Stop();
                 if (redLight != null) redLight.enabled = false;

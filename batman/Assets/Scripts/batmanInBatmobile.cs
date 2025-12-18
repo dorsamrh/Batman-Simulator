@@ -8,6 +8,7 @@ public class batmanInBatmobile : MonoBehaviour
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
+    private SpriteRenderer sr; // برای flip کردن تصویر
 
     /// <summary>
     /// تابع Start زمانی که اسکریپت شروع به کار می‌کند اجرا می‌شود.
@@ -17,6 +18,7 @@ public class batmanInBatmobile : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         // تنظیم سرعت اولیه به سرعت عادی
         moveSpeed = normalSpeed;
+        sr = GetComponent<SpriteRenderer>(); 
     }
     /// <summary>
     /// Update هر فریم اجرا می‌شود و ورودی کاربر و تغییر سرعت را بررسی می‌کند.
@@ -33,6 +35,12 @@ public class batmanInBatmobile : MonoBehaviour
             moveSpeed = boostSpeed; // سرعت بیشتر هنگام Shift
         else
             moveSpeed = normalSpeed; // سرعت عادی در غیر این صورت
+
+        // تغییر جهت کاراکتر
+        if (moveX > 0)
+            sr.flipX = true;
+        else if (moveX < 0)
+            sr.flipX = false;  
     }
 
     void FixedUpdate()

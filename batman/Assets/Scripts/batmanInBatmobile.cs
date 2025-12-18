@@ -15,7 +15,7 @@ public class batmanInBatmobile : MonoBehaviour
     public float maxY = 4f;
     public enum BatmanState { Normal, Stealth, Alert }
     public BatmanState currentState = BatmanState.Normal;
-    public Light environmentLight; // نور محیط
+    public SpriteRenderer backgroundSprite; // نور محیط
     public AudioSource alarm;        // صدای آلارم
     public Light redLight;         // نور قرمز چشمک‌زن
     public Light blueLight;        // نور آبی چشمک‌زن
@@ -28,9 +28,7 @@ public class batmanInBatmobile : MonoBehaviour
         sr = GetComponent<SpriteRenderer>(); 
         animator = GetComponent<Animator>();
     }
-    /// <summary>
-    /// Update هر فریم اجرا می‌شود و ورودی کاربر و تغییر سرعت را بررسی می‌کند.
-    /// </summary>
+
     void Update()
     {
         // دریافت ورودی کاربر (افقی: A/D یا چپ/راست، عمودی: W/S یا بالا/پایین)
@@ -63,7 +61,7 @@ public class batmanInBatmobile : MonoBehaviour
                     moveSpeed = boostSpeed; // سرعت بیشتر هنگام Shift
                 else
                     moveSpeed = normalSpeed; // سرعت عادی در غیر این صورت
-                if (environmentLight != null) environmentLight.intensity = 1f;
+                if (backgroundSprite  != null) backgroundSprite.color = Color.white;;
                 if (alarm != null && alarm.isPlaying) alarm.Stop();
                 if (redLight != null) redLight.enabled = false;
                 if (blueLight != null) blueLight.enabled = false;
@@ -71,7 +69,7 @@ public class batmanInBatmobile : MonoBehaviour
 
             case BatmanState.Stealth:
                 moveSpeed = normalSpeed * 0.5f;
-                if (environmentLight != null) environmentLight.intensity = 0.3f;
+                if (backgroundSprite  != null) backgroundSprite.color = new Color(0.3f, 0.3f, 0.3f);;
                 if (alarm != null && alarm.isPlaying) alarm.Stop();
                 if (redLight != null) redLight.enabled = false;
                 if (blueLight != null) blueLight.enabled = false;
@@ -79,7 +77,7 @@ public class batmanInBatmobile : MonoBehaviour
 
             case BatmanState.Alert:
                 moveSpeed = normalSpeed * 1.2f;
-                if (environmentLight != null) environmentLight.intensity = 1f;
+                if (backgroundSprite  != null) backgroundSprite.color = Color.yellow;;
                 if (alarm != null && !alarm.isPlaying) alarm.Play();
                 if (redLight != null) redLight.enabled = Mathf.FloorToInt(Time.time * 2) % 2 == 0;
                 if (blueLight != null) blueLight.enabled = Mathf.FloorToInt(Time.time * 2) % 2 == 1;

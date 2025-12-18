@@ -9,6 +9,10 @@ public class batmanInBatmobile : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 moveInput;
     private SpriteRenderer sr; // برای flip کردن تصویر
+    public float minX = -7f;
+    public float maxX = 7f;
+    public float minY = -4f;
+    public float maxY = 4f;
 
     /// <summary>
     /// تابع Start زمانی که اسکریپت شروع به کار می‌کند اجرا می‌شود.
@@ -45,8 +49,14 @@ public class batmanInBatmobile : MonoBehaviour
 
     void FixedUpdate()
     {
-        // حرکت کاراکتر با Rigidbody2D
-        // rb.MovePosition: موقعیت جدید کاراکتر را با توجه به ورودی و سرعت تعیین می‌کند
-        rb.MovePosition(rb.position + moveInput * moveSpeed * Time.fixedDeltaTime);
+        // محاسبه موقعیت جدید
+        Vector2 newPos = rb.position + moveInput * moveSpeed * Time.fixedDeltaTime;
+
+        // محدود کردن موقعیت به محدوده صحنه
+        newPos.x = Mathf.Clamp(newPos.x, minX, maxX);
+        newPos.y = Mathf.Clamp(newPos.y, minY, maxY);
+
+        // حرکت بتمن
+        rb.MovePosition(newPos);
     }
 }

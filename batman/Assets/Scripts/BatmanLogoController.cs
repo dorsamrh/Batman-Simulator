@@ -3,18 +3,25 @@ using UnityEngine.Rendering.Universal;
 
 public class BatmanLogoController : MonoBehaviour
 {
-    public Light2D batLight;
-    public float rotationSpeed = 10f; // سرعت چرخش
-    public float moveAmplitude = 2f;  // دامنه حرکت سینوسی
-    public float moveFrequency = 1f;  // سرعت حرکت
+    [Header("Light Settings")]
+    public Light2D batLight;             // نور Bat-Signal
+    public float moveAmplitude = 1f;     // دامنه حرکت
+    public float moveFrequency = 1f;     // سرعت حرکت
 
     private Vector3 startPos;
 
     void Start()
     {
-        if (batLight)
-            batLight.enabled = false;
+        if (batLight == null)
+        {
+            Debug.LogError("BatLight is not assigned!");
+            return;
+        }
 
+        // خاموش کردن نور در ابتدا
+        batLight.enabled = false;
+
+        // ذخیره موقعیت اولیه
         startPos = batLight.transform.position;
     }
 
@@ -28,12 +35,10 @@ public class BatmanLogoController : MonoBehaviour
 
         if (batLight.enabled)
         {
-            // چرخش آرام
-            batLight.transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
-
-            // حرکت آرام سینوسی
-            float offset = Mathf.Sin(Time.time * moveFrequency) * moveAmplitude;
-            batLight.transform.position = new Vector3(startPos.x + offset, startPos.y, startPos.z);
+            // حرکت آرام سینوسی X و Y
+            float offsetX = Mathf.Sin(Time.time * moveFrequency) * moveAmplitude;
+            float offsetY = Mathf.Cos(Time.time * moveFrequency) * moveAmplitude;
+            batLight.transform.position = new Vector3(startPos.x + offsetX, startPos.y + offsetY, startPos.z);
         }
         else
         {

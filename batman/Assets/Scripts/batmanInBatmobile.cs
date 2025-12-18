@@ -17,8 +17,9 @@ public class batmanInBatmobile : MonoBehaviour
     public BatmanState currentState = BatmanState.Normal;
     public SpriteRenderer backgroundSprite; // نور محیط
     public AudioSource alarm;        // صدای آلارم
-    public Light redLight;         // نور قرمز چشمک‌زن
-    public Light blueLight;        // نور آبی چشمک‌زن
+    public SpriteRenderer redLight;
+    public SpriteRenderer blueLight;
+
     private Animator animator;      
     void Start()
     {
@@ -61,7 +62,8 @@ public class batmanInBatmobile : MonoBehaviour
                     moveSpeed = boostSpeed; // سرعت بیشتر هنگام Shift
                 else
                     moveSpeed = normalSpeed; // سرعت عادی در غیر این صورت
-                if (backgroundSprite  != null) backgroundSprite.color = Color.white;;
+                if (backgroundSprite  != null) backgroundSprite.color = Color.white;
+                if(sr != null) sr.color = Color.white;
                 if (alarm != null && alarm.isPlaying) alarm.Stop();
                 if (redLight != null) redLight.enabled = false;
                 if (blueLight != null) blueLight.enabled = false;
@@ -69,7 +71,8 @@ public class batmanInBatmobile : MonoBehaviour
 
             case BatmanState.Stealth:
                 moveSpeed = normalSpeed * 0.5f;
-                if (backgroundSprite  != null) backgroundSprite.color = new Color(0.3f, 0.3f, 0.3f);;
+                if (backgroundSprite  != null) backgroundSprite.color = new Color(0.3f, 0.3f, 0.3f);
+                if(sr != null) sr.color = new Color(0.5f, 0.5f, 0.5f);
                 if (alarm != null && alarm.isPlaying) alarm.Stop();
                 if (redLight != null) redLight.enabled = false;
                 if (blueLight != null) blueLight.enabled = false;
@@ -77,10 +80,12 @@ public class batmanInBatmobile : MonoBehaviour
 
             case BatmanState.Alert:
                 moveSpeed = normalSpeed * 1.2f;
-                if (backgroundSprite  != null) backgroundSprite.color = Color.yellow;;
+                if (backgroundSprite  != null) backgroundSprite.color = Color.yellow;
+                if(sr != null) sr.color = Color.yellow;
                 if (alarm != null && !alarm.isPlaying) alarm.Play();
-                if (redLight != null) redLight.enabled = Mathf.FloorToInt(Time.time * 2) % 2 == 0;
-                if (blueLight != null) blueLight.enabled = Mathf.FloorToInt(Time.time * 2) % 2 == 1;
+                float blink = Mathf.PingPong(Time.time * 2f, 1f); // بین 0 و 1
+                if (redLight != null) redLight.color = new Color(1f, 0f, 0f, blink);
+                if (blueLight != null) blueLight.color = new Color(0f, 0f, 1f, 1f - blink);
                 break;
         }
         // Animator: تغییر بین Idle و Moving

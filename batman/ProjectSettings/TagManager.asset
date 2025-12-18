@@ -44,6 +44,9 @@ TagManager:
   - name: background
     uniqueID: 2730215509
     locked: 0
+  - name: light
+    uniqueID: 174139409
+    locked: 0
   - name: characters
     uniqueID: 2332134009
     locked: 0

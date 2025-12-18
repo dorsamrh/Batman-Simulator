@@ -55,8 +55,11 @@ public class batmanInBatmobile : MonoBehaviour
         switch (currentState)
         {
             case BatmanState.Normal:
-                moveSpeed = Input.GetKey(KeyCode.LeftShift | KeyCode.RightShift) ? boostSpeed : normalSpeed;
-                if (globalLight) globalLight.intensity = 1f;
+                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+                    moveSpeed = boostSpeed;
+                else
+                    moveSpeed = normalSpeed;                
+                if (globalLight) globalLight.color = Color.white;
                 if (alarm && alarm.isPlaying) alarm.Stop();
                 if (redLight) redLight.intensity = 0f;
                 if (blueLight) blueLight.intensity = 0f;
@@ -64,7 +67,7 @@ public class batmanInBatmobile : MonoBehaviour
 
             case BatmanState.Stealth:
                 moveSpeed = normalSpeed * 0.5f;
-                if (globalLight) globalLight.intensity = 0.3f;
+                if (globalLight) globalLight.color = new Color(0.3f, 0.3f, 0.3f);
                 if (alarm && alarm.isPlaying) alarm.Stop();
                 if (redLight) redLight.intensity = 0f;
                 if (blueLight) blueLight.intensity = 0f;
@@ -72,7 +75,7 @@ public class batmanInBatmobile : MonoBehaviour
 
             case BatmanState.Alert:
                 moveSpeed = normalSpeed * 1.2f;
-                if (globalLight) globalLight.intensity = 1.2f;
+                if (globalLight) globalLight.color = new Color(1f, 0.9f, 0.4f); 
                 if (alarm && !alarm.isPlaying) alarm.Play();
 
                 float blink = Mathf.PingPong(Time.time * 3f, 1f);

@@ -3,7 +3,6 @@ using UnityEngine.Rendering.Universal;
 
 public class BatmanLogoController : MonoBehaviour
 {
-    [Header("Light Settings")]
     public Light2D batLight;             // نور Bat-Signal
     public float moveAmplitude = 1f;     // دامنه حرکت
     public float moveFrequency = 1f;     // سرعت حرکت
@@ -12,11 +11,6 @@ public class BatmanLogoController : MonoBehaviour
 
     void Start()
     {
-        if (batLight == null)
-        {
-            Debug.LogError("BatLight is not assigned!");
-            return;
-        }
 
         // خاموش کردن نور در ابتدا
         batLight.enabled = false;
@@ -36,6 +30,7 @@ public class BatmanLogoController : MonoBehaviour
         if (batLight.enabled)
         {
             // حرکت آرام سینوسی X و Y
+            // برای اینکه نشان بتمن در اسمان حرکت کند
             float offsetX = Mathf.Sin(Time.time * moveFrequency) * moveAmplitude;
             float offsetY = Mathf.Cos(Time.time * moveFrequency) * moveAmplitude;
             batLight.transform.position = new Vector3(startPos.x + offsetX, startPos.y + offsetY, startPos.z);
